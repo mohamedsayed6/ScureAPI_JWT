@@ -1,5 +1,9 @@
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using ScureAPI_JWT.Data;
 using ScureAPI_JWT.Helpers;
+using ScureAPI_JWT.Models;
 
 namespace ScureAPI_JWT
 {
@@ -16,6 +20,8 @@ namespace ScureAPI_JWT
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")) );
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
